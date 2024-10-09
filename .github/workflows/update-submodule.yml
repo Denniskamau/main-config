@@ -24,7 +24,13 @@ jobs:
           cd mono-repo-1
           git submodule update --remote --merge
           git add .
-          git commit -m "Updated submodule to latest main-config version"
+          # Check if there are any changes before committing
+          if git diff-index --quiet HEAD --; then
+            echo "No changes to commit"
+          else
+            git commit -m "Updated submodule to latest main-config version"
+            git push origin main
+          fi
       
       - name: Push changes to a new branch
         run: |
