@@ -5,6 +5,9 @@ on:
     branches:
       - main  # Trigger when the main branch is updated
 
+permissions:
+  contents: write  # Allows write access to the repository contents
+
 jobs:
   update-submodule:
     runs-on: ubuntu-latest
@@ -22,31 +25,4 @@ jobs:
 
       - name: Clone mono-repo-1
         run: |
-          git config --global user.email "${{ secrets.EMAIL }}"
-          git config --global user.name "${{ secrets.USERNAME }}"
-          git clone https://${{ secrets.SUBMODULE_GITHUB_TOKEN }}@github.com/Denniskamau/mono-repo-1.git
-          cd mono-repo-1
-          git submodule update --remote --merge
-
-      - name: Commit and Push if Submodule Updated
-        run: |
-          cd mono-repo-1
-          git add .
-          if git diff-index --quiet HEAD --; then
-            echo "No changes to commit"
-          else
-            git commit -m "Updated submodule to latest main-config version"
-            BRANCH_NAME="update-submodule-$(date +%s)"
-            git checkout -b $BRANCH_NAME
-            git push "https://${{ secrets.SUBMODULE_GITHUB_TOKEN }}@github.com/Denniskamau/mono-repo-1.git" $BRANCH_NAME
-          fi
-
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.SUBMODULE_GITHUB_TOKEN }}
-          commit-message: "Updated submodule for main-config"
-          branch: $BRANCH_NAME
-          base: main  # The branch you want to merge into
-          title: "Update submodule for main-config"
-          body: "This PR updates the main-config submodule to the latest commit on the main branch."
+          git config --global user
