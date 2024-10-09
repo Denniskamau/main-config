@@ -45,7 +45,6 @@ jobs:
           BRANCH_NAME="update-submodule-$(date +%s)"
           git checkout -b $BRANCH_NAME
           
-          # Ensure that the push command points to the correct repo and branch
           git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/Denniskamau/mono-repo-1.git" $BRANCH_NAME
 
       - name: Create Pull Request
