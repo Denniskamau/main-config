@@ -7,7 +7,7 @@ on:
 
 permissions:
   contents: write  # Allows write access to the repository contents
-  pull-requests: write  # Allows the action to create pull requests
+  # pull-requests: write  # Allows the action to create pull requests
 
 jobs:
   update-submodule:
