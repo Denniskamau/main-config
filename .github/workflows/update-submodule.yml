@@ -1,0 +1,42 @@
+name: Update Submodule in Mono Repo
+
+on:
+  push:
+    branches:
+      - main  # Trigger when the main branch is updated
+
+jobs:
+  update-submodule:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main-config repo
+        uses: actions/checkout@v3
+        with:
+          submodules: true  # Ensure submodules are included
+          fetch-depth: 0
+
+      - name: Clone mono-repo-1
+        run: |
+          git clone https://github.com/Denniskamau/mono-repo-1.git
+          cd mono-repo-1
+          git submodule update --remote --merge
+          git add .
+          git commit -m "Updated submodule to latest main-config version"
+      
+      - name: Push changes to a new branch
+        run: |
+          cd mono-repo-1
+          BRANCH_NAME="update-submodule-$(date +%s)"
+          git checkout -b $BRANCH_NAME
+          git push origin $BRANCH_NAME
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.SUBMODULE_GITHUB_TOKEN }}
+          commit-message: "Updated submodule for main-config"
+          branch: $BRANCH_NAME
+          base: main  # The branch you want to merge into
+          title: "Update submodule for main-config"
+          body: "This PR updates the main-config submodule to the latest commit on the main branch."
