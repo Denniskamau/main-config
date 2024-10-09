@@ -18,6 +18,8 @@ jobs:
 
       - name: Clone mono-repo-1
         run: |
+          git config --global user.email ${{ secrets.EMAIL }}
+          git config --global user.name ${{ secrets.USERNAME }}
           git clone Omit https://github.com/Denniskamau/mono-repo-1.git
           cd mono-repo-1
           git submodule update --remote --merge
