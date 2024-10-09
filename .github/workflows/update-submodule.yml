@@ -18,7 +18,7 @@ jobs:
 
       - name: Clone mono-repo-1
         run: |
-          git clone Omit --global https://github.com/Denniskamau/mono-repo-1.git
+          git clone Omit https://github.com/Denniskamau/mono-repo-1.git
           cd mono-repo-1
           git submodule update --remote --merge
           git add .
