@@ -39,6 +39,7 @@ jobs:
             BRANCH_NAME="update-submodule-$(date +%s)"
             git checkout -b $BRANCH_NAME
             git push "https://${{ secrets.SUBMODULE_GITHUB_TOKEN }}@github.com/Denniskamau/mono-repo-1.git" $BRANCH_NAME
+          fi
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
