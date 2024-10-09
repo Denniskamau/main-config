@@ -24,25 +24,21 @@ jobs:
         run: |
           git config --global user.email "${{ secrets.EMAIL }}"
           git config --global user.name "${{ secrets.USERNAME }}"
-          git clone https://${{ secrets.GITHUB_TOKEN }}@github.com/Denniskamau/mono-repo-1.git
+          git clone https://${{ secrets.SUBMODULE_GITHUB_TOKEN }}@github.com/Denniskamau/mono-repo-1.git
           cd mono-repo-1
           git submodule update --remote --merge
+
+      - name: Commit and Push if Submodule Updated
+        run: |
+          cd mono-repo-1
           git add .
-          # Check if there are any changes before committing
           if git diff-index --quiet HEAD --; then
             echo "No changes to commit"
           else
             git commit -m "Updated submodule to latest main-config version"
-            git push origin main
-          fi
-      
-      - name: Push changes to a new branch
-        run: |
-          cd mono-repo-1
-          BRANCH_NAME="update-submodule-$(date +%s)"
-          git checkout -b $BRANCH_NAME
-          
-          git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/Denniskamau/mono-repo-1.git" $branch_name
+            BRANCH_NAME="update-submodule-$(date +%s)"
+            git checkout -b $BRANCH_NAME
+            git push "https://${{ secrets.SUBMODULE_GITHUB_TOKEN }}@github.com/Denniskamau/mono-repo-1.git" $BRANCH_NAME
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
