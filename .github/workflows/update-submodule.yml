@@ -20,7 +20,7 @@ jobs:
         run: |
           git config --global user.email ${{ secrets.EMAIL }}
           git config --global user.name ${{ secrets.USERNAME }}
-          git clone https://github.com/Denniskamau/mono-repo-1.git
+          git clone https://${{ secrets.GITHUB_TOKEN }}@github.com/Denniskamau/mono-repo-1.git
           cd mono-repo-1
           git submodule update --remote --merge
           git add .
